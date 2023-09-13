@@ -10,7 +10,7 @@ export type PropsType = {
     title: string
     tasks: Array<TasksPropsType>
 }
-export const Todolist = (props: PropsType) => {
+export function Todolist (props: PropsType) {
     return (
         <div>
             <h3>{props.title}</h3>
