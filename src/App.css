@@ -1,0 +1,16 @@
+.todolist {
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.todolist > div {
+  margin-right: 50px;
+  border: 1px solid #8cf68c;
+  padding: 30px;
+  background-color: rgba(179, 252, 153, 0.56);
+}
+
+/*h3 {*/
+/*  text-align: center;*/
+/*}*/
