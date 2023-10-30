@@ -23,7 +23,7 @@ export function Todolist(props: PropsType) {
         setNewTaskTitle(e.currentTarget.value)
     }
 
-    const onKeyPressHandler = (event: any) => { // не подключаются импорты из Reacta для этого события. Времнно установила any
+    const onKeyPressHandler = (event: any) => { // не подключаются импорты из React для этого события. Времнно установила any
         if (event.key === 'Enter') {
             props.addTask(newTaskTitle);
             setNewTaskTitle('')
@@ -49,7 +49,7 @@ export function Todolist(props: PropsType) {
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={newTaskTitle} onChange={onNewTaskTitleHandler} onKeyPress={onKeyPressHandler}/>
+                <input value={newTaskTitle} onChange={onNewTaskTitleHandler} onKeyDown={onKeyPressHandler}/>
                 <button onClick={addTaskHandler}>
                     +
                 </button>
