@@ -11,7 +11,7 @@
 
 }
 
-/* обведет границу красным цветом*/
+/* обведет границу красным цветом input*/
 .error {
   border: red 1px solid;
 }
@@ -21,6 +21,11 @@
   color: red;
 }
 
+
+/* задали стиль для активной кнопки фильтрации */
+.active-filter {
+  background-color: aquamarine;
+}
 /*h3 {*/
 /*  text-align: center;*/
 /*}*/

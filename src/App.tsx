@@ -55,7 +55,7 @@ function App() {
                       removeTask={removeTask} // callback f()=>{}
                       changeValuesTasks={changeValuesTasks} // callback f()=>{}
                       addTask={addTask}
-
+                      filter={filter}
             />
         </div>
     );
