@@ -26,6 +26,11 @@
 .active-filter {
   background-color: aquamarine;
 }
+
+/*задали стиль с прозрачностью в 0.5*/
+.is-done {
+  opacity: 0.5;
+}
 /*h3 {*/
 /*  text-align: center;*/
 /*}*/
