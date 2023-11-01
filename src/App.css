@@ -1,14 +1,24 @@
 .todolist {
-  padding: 50px;
+  padding: 100px;
   display: flex;
   justify-content: center;
 }
 
 .todolist > div {
-  margin-right: 50px;
   border: 1px solid #8cf68c;
   padding: 30px;
   background-color: rgba(179, 252, 153, 0.56);
+
+}
+
+/* обведет границу красным цветом*/
+.error {
+  border: red 1px solid;
+}
+
+/* выводит сообщение красным цветом текст*/
+.error-message {
+  color: red;
 }
 
 /*h3 {*/

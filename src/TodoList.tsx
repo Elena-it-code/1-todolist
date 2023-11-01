@@ -18,12 +18,15 @@ export type PropsType = {
 
 export function Todolist(props: PropsType) {
     const [newTaskTitle, setNewTaskTitle] = useState('')
+    //создали стейт для хранения нашей переменной error, которая будет выводить ошубку пользователю, об обязательности моздания title для task / задачи, и state, который будет заставлять React отрисовать/изменить нам JSX в UI
+    let [error, setError]=useState<string | null>(null)
 
     const onNewTaskTitleHandler = (e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
         setNewTaskTitle(e.currentTarget.value)
     }
 
-    const onKeyPressHandler = (event: any) => { // не подключаются импорты из React для этого события. Времнно установила any
+    const onKeyPressHandler = (event: React.KeyboardEvent<HTMLElement>) => {
+        setError(null)
         if (event.key === 'Enter') {
             props.addTask(newTaskTitle);
             setNewTaskTitle('')
@@ -35,6 +38,8 @@ export function Todolist(props: PropsType) {
         if (newTaskTitle.trim() !== '') {
             props.addTask(newTaskTitle.trim());  // newTaskTitle.trim() сделали так, чтобы в локальный стейт отправлялась только очищенная от пробелов по краям строка, но осталась возможность ставить пробел между словами. К примеру: “логин пароль”.По краям пробела быть не может, а между словами пожалуйста.
             setNewTaskTitle('')
+        } else {
+            setError('Title is required')
         }
     }
     //вариант с return, подходит, если у нас много условий. Это называется многократный возврат функции. Обрывание.
@@ -59,10 +64,11 @@ export function Todolist(props: PropsType) {
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={newTaskTitle} onChange={onNewTaskTitleHandler} onKeyDown={onKeyPressHandler}/>
+                <input value={newTaskTitle} onChange={onNewTaskTitleHandler} onKeyDown={onKeyPressHandler} className={error ? 'error' : ''}/>
                 <button onClick={addTaskHandler}>
                     +
                 </button>
+                {error && <div className='error-message'>{error}</div>}
             </div>
             <ul>
                 {
