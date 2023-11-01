@@ -40,6 +40,15 @@ function App() {
         setFilter(value);
     }
 
+    //пишем функцию для изменения статуса чекбокса, выполнена на невыполнена
+    function changeStatus(taskId: string, isDone: boolean){
+        let task = tasks.find(t=>t.id === taskId)
+        if(task) {
+            task.isDone = isDone;
+            setTasks([...tasks])
+        }
+    }
+
     //пишем функцию для добавления task(и)
     function addTask(title: string) {
         let newTask = {id: v1(), title: title, isDone: false}
@@ -54,7 +63,8 @@ function App() {
                       tasks={tasksForTodolist} // data
                       removeTask={removeTask} // callback f()=>{}
                       changeValuesTasks={changeValuesTasks} // callback f()=>{}
-                      addTask={addTask}
+                      changeTaskStatus={changeStatus} // callback f()=>{}
+                      addTask={addTask} // callback f()=>{}
                       filter={filter}
             />
         </div>
