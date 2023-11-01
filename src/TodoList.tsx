@@ -30,18 +30,28 @@ export function Todolist(props: PropsType) {
         }
     }
 
-    const addTaskHandler =() => {
+    const addTaskHandler = () => {
+        // если у нас одно условие, то записать можно в упрощенном варианте
+        if (newTaskTitle.trim() !== '') {
+            props.addTask(newTaskTitle.trim());  // newTaskTitle.trim() сделали так, чтобы в локальный стейт отправлялась только очищенная от пробелов по краям строка, но осталась возможность ставить пробел между словами. К примеру: “логин пароль”.По краям пробела быть не может, а между словами пожалуйста.
+            setNewTaskTitle('')
+        }
+    }
+    //вариант с return, подходит, если у нас много условий. Это называется многократный возврат функции. Обрывание.
+    /*    if (newTaskTitle.trim() === '') {
+            return;
+        }
         props.addTask(newTaskTitle);
         setNewTaskTitle('')
-    }
+    }*/
 
-    const onAllChangeValuesTasks =() => {
+    const onAllChangeValuesTasks = () => {
         props.changeValuesTasks('all')
     }
-    const onActiveChangeValuesTasks =() => {
+    const onActiveChangeValuesTasks = () => {
         props.changeValuesTasks('active')
     }
-    const onCompletedChangeValuesTasks =() => {
+    const onCompletedChangeValuesTasks = () => {
         props.changeValuesTasks('completed')
     }
 
@@ -56,17 +66,17 @@ export function Todolist(props: PropsType) {
             </div>
             <ul>
                 {
-                    props.tasks.map((t) =>{
-                        const removeTaskHandler =() => {
+                    props.tasks.map((t) => {
+                        const removeTaskHandler = () => {
                             props.removeTask(t.id)
                         }
-                        return(
-                        <li><input type="checkbox" checked={t.isDone}/>{t.title}
-                            <button onClick={removeTaskHandler}>
-                                x
-                            </button>
-                        </li>)
-                })}
+                        return (
+                            <li><input type="checkbox" checked={t.isDone}/>{t.title}
+                                <button onClick={removeTaskHandler}>
+                                    x
+                                </button>
+                            </li>)
+                    })}
             </ul>
             <div>
                 <button onClick={onAllChangeValuesTasks}>
