@@ -48,10 +48,10 @@ function App() {
         {id: v1(), title: "TypeScript", isDone: false},
     ])*/
     //удаляем task(и)
-    function removeTask(todolistID: string, taskid: string) {
+    function removeTask(todolistID: string, taskId: string) {
         //let filteredTasks = tasks.filter(t => t.id !== id)
         //setTasks(filteredTasks)
-        setTasks({...tasks, [todolistID] : tasks[todolistID].filter(el=>el.id !== taskid)})
+        setTasks({...tasks, [todolistID] : tasks[todolistID].filter(el=>el.id !== taskId)})
     }
 
     //пишем функцию для фильтрации тasks автоматически с использованием set функции, для последующего их вызова при клике на кнопки all / completed / active
@@ -61,7 +61,9 @@ function App() {
     }
 
     //пишем функцию для изменения статуса чекбокса, выполнена на невыполнена
-    function changeStatus(taskId: string, isDone: boolean) {
+    function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
+        //setTasks({...tasks, [todolistID]: tasks[todolistID].filter(el=>el.isDone ? el.isDone : el)})
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(el=>el.id === taskId ? {...el, isDone}: el)}) // isDone:isDone, стараются делать, чтобы ключ и значение совпадали по названию, то можно просто писать одним словом isDone, для краткости. Так будет рефакторинг кода и плюс в карму)). Отличит Вас от опытного и неопытного кодера
         /*let task = tasks.find(t => t.id === taskId)
         if (task) {
             task.isDone = isDone;
