@@ -11,7 +11,7 @@ export type TasksPropsType = {
 export type PropsType = {
     title: string
     tasks: Array<TasksPropsType>
-    removeTask: (id: string) => void
+    removeTask: (todolistID: string, taskid: string) => void
     changeValuesTasks: (todolistID: string, value: FilterValuesType) => void;
     addTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean)=> void
@@ -80,7 +80,7 @@ export function Todolist(props: PropsType) {
                             props.changeTaskStatus(t.id,e.currentTarget.checked)
                         }
                         const removeTaskHandler = () => {
-                            props.removeTask(t.id)
+                            props.removeTask(props.todolistID, t.id)
                         }
                         return (
                             <li key={t.id} className={t.isDone ?'is-done' : ""}>
