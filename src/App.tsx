@@ -70,10 +70,12 @@ function App() {
     }
 
     //пишем функцию для добавления task(и)
-    function addTask(title: string) {
-        // let newTask = {id: v1(), title: title, isDone: false}
+    function addTask(todolistID: string, title: string) {
+        let newTask = {id: v1(), title: title, isDone: false}
+        setTasks({...tasks, [todolistID]: [...tasks[todolistID],newTask]})
         // let newTasks = [newTask, ...tasks]
         // setTasks(newTasks)
+
     }
 
 

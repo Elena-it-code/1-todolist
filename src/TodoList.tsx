@@ -13,7 +13,7 @@ export type PropsType = {
     tasks: Array<TasksPropsType>
     removeTask: (todolistID: string, taskid: string) => void
     changeValuesTasks: (todolistID: string, value: FilterValuesType) => void;
-    addTask: (title: string) => void
+    addTask: (todolistID: string, title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean)=> void
     filter: FilterValuesType
     todolistID: string
@@ -31,7 +31,7 @@ export function Todolist(props: PropsType) {
     const onKeyPressHandler = (event: React.KeyboardEvent<HTMLElement>) => {
         setError(null)
         if (event.key === 'Enter') {
-            props.addTask(newTaskTitle);
+            props.addTask(props.todolistID, newTaskTitle);
             setNewTaskTitle('')
         }
     }
@@ -39,7 +39,7 @@ export function Todolist(props: PropsType) {
     const addTaskHandler = () => {
         // если у нас одно условие, то записать можно в упрощенном варианте
         if (newTaskTitle.trim() !== '') {
-            props.addTask(newTaskTitle.trim());  // newTaskTitle.trim() сделали так, чтобы в локальный стейт отправлялась только очищенная от пробелов по краям строка, но осталась возможность ставить пробел между словами. К примеру: “логин пароль”.По краям пробела быть не может, а между словами пожалуйста.
+            props.addTask(props.todolistID, newTaskTitle.trim());  // newTaskTitle.trim() сделали так, чтобы в локальный стейт отправлялась только очищенная от пробелов по краям строка, но осталась возможность ставить пробел между словами. К примеру: “логин пароль”.По краям пробела быть не может, а между словами пожалуйста.
             setNewTaskTitle('')
         } else {
             setError('Title is required')
