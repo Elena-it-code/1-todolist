@@ -5,11 +5,15 @@ import {TasksPropsType, Todolist} from "./TodoList";
 
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
-export type TodolistType = {
+type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
+type TasksStateType = {
+    [key: string]: TasksPropsType[]
+}
+
 
 function App() {
     let todolistID1 = v1()
@@ -22,9 +26,9 @@ function App() {
         ]
     )
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'HTML&CSS', "isDone": true},
             {id: v1(), title: 'JS', isDone: true},
             {id: v1(), title: 'ReactJS', isDone: false},
             {id: v1(), title: 'Rest API', isDone: false},
@@ -52,7 +56,7 @@ function App() {
     function removeTask(todolistID: string, taskId: string) {
         //let filteredTasks = tasks.filter(t => t.id !== id)
         //setTasks(filteredTasks)
-        setTasks({...tasks, [todolistID]: tasks[todolistID].filter(el => el.id !== taskId)})
+        setTasks({...tasks, [todolistID] : tasks[todolistID].filter(el => el.id !== taskId)})
     }
 
     //пишем функцию для фильтрации тasks автоматически с использованием set функции, для последующего их вызова при клике на кнопки all / completed / active
@@ -64,7 +68,7 @@ function App() {
     //пишем функцию для изменения статуса чекбокса, выполнена на невыполнена
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
         //setTasks({...tasks, [todolistID]: tasks[todolistID].filter(el=>el.isDone ? el.isDone : el)})
-        setTasks({...tasks, [todolistID]: tasks[todolistID].map(el => el.id === taskId ? {...el, isDone} : el)}) // isDone:isDone, стараются делать, чтобы ключ и значение совпадали по названию, то можно просто писать одним словом isDone, для краткости. Так будет рефакторинг кода и плюс в карму)). Отличит Вас от опытного и неопытного кодера
+        setTasks({...tasks, [todolistID] : tasks[todolistID].map(el => el.id === taskId ? {...el, isDone} : el)}) // isDone:isDone, стараются делать, чтобы ключ и значение совпадали по названию, то можно просто писать одним словом isDone, для краткости. Так будет рефакторинг кода и плюс в карму)). Отличит Вас от опытного и неопытного кодера
         /*let task = tasks.find(t => t.id === taskId)
         if (task) {
             task.isDone = isDone;
@@ -75,14 +79,14 @@ function App() {
     //пишем функцию для добавления task(и)
     function addTask(todolistID: string, title: string) {
         let newTask = {id: v1(), title: title, isDone: false}
-        setTasks({...tasks, [todolistID]: [...tasks[todolistID], newTask]})
+        setTasks({...tasks, [todolistID] : [...tasks[todolistID], newTask]})
         // let newTasks = [newTask, ...tasks]
         // setTasks(newTasks)
 
     }
 
     const removeTodolist = (todolistID: string) => {
-        setTodolists(todolists.filter(el=> el.id !== todolistID))
+        setTodolists(todolists.filter(el => el.id !== todolistID))
         delete tasks[todolistID]
         console.log(tasks)
 
