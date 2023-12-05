@@ -1,113 +1,100 @@
-import React, {ChangeEvent, useState} from "react";
-import {FilterValuesType} from "./App";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {FilterValuesType} from './App';
 
-export type TasksPropsType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
-
 }
 
-export type PropsType = {
-    todolistID: string
+type PropsType = {
+    todolistId: string
     title: string
-    tasks: Array<TasksPropsType>
-    removeTask: (todolistID: string, taskId: string) => void
-    changeValuesTasks: (todolistID: string, value: FilterValuesType) => void;
-    addTask: (todolistID: string, title: string) => void
-    changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean)=> void
+    tasks: Array<TaskType>
+    removeTask: (todolistId: string, taskId: string) => void
+    changeFilter: (todolistId: string, value: FilterValuesType) => void
+    addTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
-    removeTodolist:(todolistID: string)=> void
+    removeTodolist: (todolistId: string) => void
 }
 
 export function Todolist(props: PropsType) {
-    const [newTaskTitle, setNewTaskTitle] = useState('')
-    //создали стейт для хранения нашей переменной error, которая будет выводить ошубку пользователю, об обязательности моздания title для task / задачи, и state, который будет заставлять React отрисовать/изменить нам JSX в UI
-    let [error, setError]=useState<string | null>(null)
 
-    const onNewTaskTitleHandler = (e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
-        setNewTaskTitle(e.currentTarget.value)
-    }
+    let [title, setTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
 
-    const onKeyPressHandler = (event: React.KeyboardEvent<HTMLElement>) => {
-        setError(null)
-        if (event.key === 'Enter') {
-            props.addTask(props.todolistID, newTaskTitle);
-            setNewTaskTitle('')
-        }
-    }
-
-    const addTaskHandler = () => {
-        // если у нас одно условие, то записать можно в упрощенном варианте
-        if (newTaskTitle.trim() !== '') {
-            props.addTask(props.todolistID, newTaskTitle.trim());  // newTaskTitle.trim() сделали так, чтобы в локальный стейт отправлялась только очищенная от пробелов по краям строка, но осталась возможность ставить пробел между словами. К примеру: “логин пароль”.По краям пробела быть не может, а между словами пожалуйста.
-            setNewTaskTitle('')
+    const addTask = () => {
+        if (title.trim() !== "") {
+            props.addTask(props.todolistId, title.trim());
+            setTitle("");
         } else {
-            setError('Title is required')
+            setError("Title is required");
         }
     }
-    //вариант с return, подходит, если у нас много условий. Это называется многократный возврат функции. Обрывание.
-    /*    if (newTaskTitle.trim() === '') {
-            return;
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            addTask();
         }
-        props.addTask(newTaskTitle);
-        setNewTaskTitle('')
-    }*/
-
-    const onAllChangeValuesTasks = () => {
-        props.changeValuesTasks(props.todolistID,'all')
-    }
-    const onActiveChangeValuesTasks = () => {
-        props.changeValuesTasks(props.todolistID,'active')
-    }
-    const onCompletedChangeValuesTasks = () => {
-        props.changeValuesTasks(props.todolistID,'completed')
     }
 
-    const RemoveTodolistHandler=()=>{
-        props.removeTodolist(props.todolistID)
+    const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
+    const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
+    const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
+
+    const removeTodolistHandler = () => {
+        props.removeTodolist(props.todolistId)
     }
-    return (
+
+    return <div>
+        <h3>
+            {props.title}
+            <button onClick={removeTodolistHandler}>X</button>
+
+        </h3>
         <div>
-            <h3>{props.title}
-                <button onClick={RemoveTodolistHandler}>x</button>
-            </h3>
-            <div>
-                <input value={newTaskTitle} onChange={onNewTaskTitleHandler} onKeyDown={onKeyPressHandler} className={error ? 'error' : ''}/>
-                <button onClick={addTaskHandler}>
-                    +
-                </button>
-                {error && <div className='error-message'>{error}</div>}
-            </div>
-            <ul>
-                {
-                    props.tasks.map((t) => {
-                        const onChangeHandler=(e:ChangeEvent<HTMLInputElement>)=>{
-                            props.changeTaskStatus(props.todolistID, t.id,e.currentTarget.checked)
-                        }
-                        const removeTaskHandler = () => {
-                            props.removeTask(props.todolistID, t.id)
-                        }
-                        return (
-                            <li key={t.id} className={t.isDone ?'is-done' : ""}>
-                                <input type="checkbox" checked={t.isDone} onChange={onChangeHandler}/>{t.title}
-                                <button onClick={removeTaskHandler}>
-                                    x
-                                </button>
-                            </li>)
-                    })}
-            </ul>
-            <div>
-                <button className={props.filter === "all" ? 'active-filter' : ''} onClick={onAllChangeValuesTasks}>
-                    All
-                </button>
-                <button className={props.filter === "active" ? 'active-filter' : ''} onClick={onActiveChangeValuesTasks}>
-                    Active
-                </button>
-                <button className={props.filter === "completed" ? 'active-filter' : ''} onClick={onCompletedChangeValuesTasks}>
-                    Completed
-                </button>
-            </div>
+            <input value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   className={error ? "error" : ""}
+            />
+            <button onClick={addTask}>+</button>
+            {error && <div className="error-message">{error}</div>}
         </div>
-    )
+        <ul>
+            {
+                props.tasks.map(t => {
+                    const onClickHandler = () => props.removeTask(props.todolistId, t.id)
+                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                        props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked);
+                    }
+
+                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                        <input type="checkbox"
+                               onChange={onChangeHandler}
+                               checked={t.isDone}/>
+                        <span>{t.title}</span>
+                        <button onClick={onClickHandler}>x</button>
+                    </li>
+                })
+            }
+        </ul>
+        <div>
+            <button className={props.filter === 'all' ? "active-filter" : ""}
+                    onClick={onAllClickHandler}>All
+            </button>
+            <button className={props.filter === 'active' ? "active-filter" : ""}
+                    onClick={onActiveClickHandler}>Active
+            </button>
+            <button className={props.filter === 'completed' ? "active-filter" : ""}
+                    onClick={onCompletedClickHandler}>Completed
+            </button>
+        </div>
+    </div>
 }

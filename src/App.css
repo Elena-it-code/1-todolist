@@ -1,36 +1,26 @@
-.todolist {
-  padding: 100px;
-  display: flex;
-  justify-content: center;
-}
 
-.todolist > div {
-  border: 1px solid #8cf68c;
+.App {
   padding: 30px;
-  background-color: rgba(179, 252, 153, 0.56);
-
+  display: flex;
 }
 
-/* обведет границу красным цветом input*/
+.App > div {
+  margin-right: 50px;
+}
+
 .error {
   border: red 1px solid;
 }
 
-/* выводит сообщение красным цветом текст*/
 .error-message {
   color: red;
 }
 
-
-/* задали стиль для активной кнопки фильтрации */
 .active-filter {
   background-color: aquamarine;
 }
 
-/*задали стиль с прозрачностью в 0.5*/
 .is-done {
   opacity: 0.5;
 }
-/*h3 {*/
-/*  text-align: center;*/
-/*}*/
+
