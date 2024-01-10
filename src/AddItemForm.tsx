@@ -1,9 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 type PropsType = {
-    id: string
-    addTask: (newTitle:string, id:string)=> void
-
+    onClick: (newTitle:string)=> void // оставляем только title, это "тупая" компонента - универсальная, она работает только с titile
 }
 
 export const AddItemForm = (props:PropsType) => {
@@ -13,7 +11,7 @@ export const AddItemForm = (props:PropsType) => {
     const addTask = () => {
         let newTitle = title.trim();
         if (newTitle !== "") {
-            props.addTask(newTitle, props.id);
+            props.onClick(newTitle);
             setTitle("");
         } else {
             setError("Title is required");
