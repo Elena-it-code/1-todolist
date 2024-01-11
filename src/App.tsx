@@ -45,7 +45,6 @@ function App() {
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
-
     function changeStatus(id: string, isDone: boolean, todolistId: string) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
@@ -58,7 +57,6 @@ function App() {
             setTasks({...tasks});
         }
     }
-
     function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId);
         if (todolist) {
@@ -66,7 +64,6 @@ function App() {
             setTodolists([...todolists])
         }
     }
-
     function removeTodolist(id: string) {
         // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
         setTodolists(todolists.filter(tl => tl.id != id));
@@ -75,7 +72,6 @@ function App() {
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
-
     function addTask(title: string, todolistId: string) {
         let task = {id: v1(), title: title, isDone: false};
         //достанем нужный массив по todolistId:
@@ -85,13 +81,20 @@ function App() {
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
-
     const addTodolist = (newTitle: string)=> {
         const newId = v1()
         const newTodo: TodolistType = {id: newId, title: newTitle, filter: "all"}
         setTodolists([...todolists, newTodo])
         setTasks({...tasks,[newId]:[] })
     }
+
+    const updateTask = (todolistId: string, taskId:string, newTitle: string)=>{
+        setTasks({...tasks, [todolistId] : tasks[todolistId].map(el=>el.id === taskId ? {...el, title: newTitle} : el)})
+        /*setTasks({...tasks, [todolistId]:[ // мы положили квартиры наши объекты двумя словами tasks[todolistId]. На примере мой друг живет во втором подъезде, и мы как у объекта указали двумя словами доступ к квартре/свойству объекта
+                {id: v1(), title: "HTML&CSS", isDone: true}, // такая запись индентична tasks[todolistId]
+                {id: v1(), title: "JS", isDone: true}
+            ],})*/
+    } /*tasks, [todolistId]:*/
 
     return (
         <div className="App">
@@ -119,6 +122,7 @@ function App() {
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        updateTask={updateTask}
                     />
                 })
             }
