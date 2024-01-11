@@ -13,7 +13,8 @@ export const EditableSpan = (props: PropsType) => {
     const editHandler = () => {
         setEdit(!edit)
         if (edit) {
-            addTask()
+            props.onClick(newTitle)
+            /*addTask()*/
         }
     }
 
@@ -21,9 +22,9 @@ export const EditableSpan = (props: PropsType) => {
         setNewTitle(e.currentTarget.value)
     }
 
-    const addTask = () => {
+    /*const addTask = () => {
         props.onClick(newTitle)
-    }
+    }*/
 
     return (
         edit
