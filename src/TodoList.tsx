@@ -19,7 +19,8 @@ type PropsType = {
     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
     removeTodolist: (id: string) => void
     filter: FilterValuesType
-    updateTask: (todolistId: string, taskId:string, newTitle: string)=> void
+    updateTask: (todolistId: string, taskId:string, newTitle: string) => void
+    updateTodolist: (todolistId: string, newTitle: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -54,10 +55,18 @@ export function Todolist(props: PropsType) {
     const addTaskHandler = (newTitle: string) => { // функция посредник. Принимает id из props и newTitle, указали так, потому что данные которые приходят от детей родителю передается через callback(и)!!!
         props.addTask(newTitle, props.id)
     }
+    const updateTodolistHandler =(newTitle: string)=>{
+        props.updateTodolist(props.id, newTitle)
+    }
+
+    const updateTaskHandler = (tId: string, newTitle: string)=>{
+        props.updateTask(props.id, tId, newTitle)
+    }
 
 
     return <div>
-        <h3> {props.title}
+        <h3> {/*{props.title}*/}
+            <EditableSpan oldTitle={props.title} onClick={updateTodolistHandler}/>
             <button onClick={removeTodolist}>x</button>
         </h3>
         <AddItemForm onClick={addTaskHandler}/>
@@ -79,13 +88,16 @@ export function Todolist(props: PropsType) {
                         props.changeTaskStatus(t.id, newIsDoneValue, props.id);
                     }
 
-                    const updateTaskHandler = (newTitle: string)=>{
+                    /*const updateTaskHandler = (newTitle: string)=>{
                         props.updateTask(props.id, t.id, newTitle)
-                    }
+                    }*/
+
+
 
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
-                        <EditableSpan oldTitle={t.title} onClick={updateTaskHandler}/>
+                        {/*<EditableSpan oldTitle={t.title} onClick={updateTaskHandler}/>*/}
+                        <EditableSpan oldTitle={t.title} onClick={(newTitle)=>updateTaskHandler(t.id, newTitle)}/>
                         {/*<span>{t.title}</span>*/}
                         <button onClick={onClickHandler}>x</button>
                     </li>
