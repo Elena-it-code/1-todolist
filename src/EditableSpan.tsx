@@ -31,7 +31,7 @@ export const EditableSpan = (props: PropsType) => {
         edit
             /*2) В EditableSpan сделайте замену input на TextField самостоятельно*/
             /*? <input value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler}/>*/
-            ? <TextField size={'small'} value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler}/>
+            ? <TextField size={'small'} variant={"outlined"} value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler}/>
             : <span onDoubleClick={editHandler}>{props.oldTitle}</span>
 
     );
