@@ -2,6 +2,8 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 export type TaskType = {
     id: string
@@ -67,7 +69,10 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3> {/*{props.title}*/}
             <EditableSpan oldTitle={props.title} onClick={updateTodolistHandler}/>
-            <button onClick={removeTodolist}>x</button>
+            {/*<button onClick={removeTodolist}>x</button>*/}
+            <IconButton onClick={removeTodolist}> {/*Устанавливаем иконку в качестве кнопки 1) А кнопки удаления тудулиста заменим на компонент IconButton с иконкой (компонент Delete) внутри:*/}
+                <Delete />
+            </IconButton>
         </h3>
         <AddItemForm onClick={addTaskHandler}/>
         {/*<div>*/}
@@ -99,7 +104,10 @@ export function Todolist(props: PropsType) {
                         {/*<EditableSpan oldTitle={t.title} onClick={updateTaskHandler}/>*/}
                         <EditableSpan oldTitle={t.title} onClick={(newTitle)=>updateTaskHandler(t.id, newTitle)}/>
                         {/*<span>{t.title}</span>*/}
-                        <button onClick={onClickHandler}>x</button>
+                        {/*<button onClick={onClickHandler}>x</button>*/} {/*скопировали наш onClick={onClickHandler} и свтавили уже в нашу компоненту от MUI IconButton */}
+                        <IconButton onClick={onClickHandler}> {/* 2) По аналогии, самостоятельно заменим кнопку удаления таски на компонент IconButton с иконкой внутри.*/}
+                            <Delete/>
+                        </IconButton>
                     </li>
                 })
             }
