@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button} from "@mui/material";
 
 type PropsType = {
     onClick: (newTitle:string)=> void // оставляем только title, это "тупая" компонента - универсальная, она работает только с titile
@@ -35,7 +36,10 @@ export const AddItemForm = (props:PropsType) => {
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <button onClick={addTask}>+</button>
+            {/*А что если все равно что-то “не то” и не хочется сильно углубляться в библиотеку? Тогда можно при необходимости через style. К примеру:
+               <Button style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}/>
+                  Так вы можете не только размер задать, но и цвет и т.д.*/}
+            <Button onClick={addTask} variant={"contained"} color={"primary"} size={"small"}>+</Button>
             {error && <div className="error-message">{error}</div>}
         </div>
     );
