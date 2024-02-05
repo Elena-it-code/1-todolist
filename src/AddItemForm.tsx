@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 
 type PropsType = {
     onClick: (newTitle:string)=> void // оставляем только title, это "тупая" компонента - универсальная, она работает только с titile
@@ -31,7 +31,13 @@ export const AddItemForm = (props:PropsType) => {
     }
     return (
         <div>
-            <input value={title}
+            {/*1) Давайте обычный input в AddItemForm заменим на компонент TextField:*/}
+            {/*<input value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   className={error ? "error" : ""}
+            />*/}
+            <TextField size={"small"} value={title}
                    onChange={onChangeHandler}
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
