@@ -84,7 +84,7 @@ export function Todolist(props: PropsType) {
         {/*    <button onClick={addTask}>+</button>*/}
         {/*    {error && <div className="error-message">{error}</div>}*/}
         {/*</div>*/}
-        <ul>
+        <div>
             {
                 props.tasks.map(t => {
                     const onClickHandler = () => props.removeTask(t.id, props.id)
@@ -99,7 +99,7 @@ export function Todolist(props: PropsType) {
 
 
 
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
                         {/*1) Заменим обычный <input type=’checkbox’> на чекбокс из библиотеки:*/}
                         {/*<input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>*/}
                         <Checkbox onChange={onChangeHandler} checked={t.isDone}/>
@@ -110,10 +110,10 @@ export function Todolist(props: PropsType) {
                         <IconButton onClick={onClickHandler}> {/* 2) По аналогии, самостоятельно заменим кнопку удаления таски на компонент IconButton с иконкой внутри.*/}
                             <Delete/>
                         </IconButton>
-                    </li>
+                    </div>
                 })
             }
-        </ul>
+        </div>
         <div>
             {/*код без использования MUI*/}
             {/*<button className={props.filter === 'all' ? "active-filter" : ""}

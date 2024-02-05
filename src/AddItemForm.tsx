@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button, TextField} from "@mui/material";
+import {Button, IconButton, TextField} from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 type PropsType = {
     onClick: (newTitle: string) => void // оставляем только title, это "тупая" компонента - универсальная, она работает только с titile
@@ -58,7 +59,9 @@ export const AddItemForm = (props: PropsType) => {
             {/*А что если все равно что-то “не то” и не хочется сильно углубляться в библиотеку? Тогда можно при необходимости через style. К примеру:
                <Button style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}/>
                   Так вы можете не только размер задать, но и цвет и т.д.*/}
-            <Button onClick={addTask} variant={"contained"} color={"primary"} size={"small"}>+</Button>
+            <IconButton onClick={addTask} color={"primary"}>
+                <AddBoxIcon />
+            </IconButton>
             {/*{error && <div className="error-message">{error}</div>}*/} {/*Эту запись error просто удаляем тогда*/}
         </div>
     );
