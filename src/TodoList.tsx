@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 export type TaskType = {
@@ -113,7 +113,8 @@ export function Todolist(props: PropsType) {
             }
         </ul>
         <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
+            {/*код без использования MUI*/}
+            {/*<button className={props.filter === 'all' ? "active-filter" : ""}
                     onClick={onAllClickHandler}>All
             </button>
             <button className={props.filter === 'active' ? "active-filter" : ""}
@@ -121,7 +122,25 @@ export function Todolist(props: PropsType) {
             </button>
             <button className={props.filter === 'completed' ? "active-filter" : ""}
                     onClick={onCompletedClickHandler}>Completed
-            </button>
+            </button>*/}
+            {/*
+            Кнопки для фильтров
+                1) Кнопки для фильтров тоже заменим на компонент Button
+                Во время замены сохраните className. По сути вам нужно просто заменить маленькую букву b в слове button на большую B
+                2) Давайте кнопки фильтрации сделаем разноцветными.
+               Для этого установите для кнопки атрибут (проп) color:
+               3) Если хотите, чтобы они выглядели как кнопки (или как ссылки), поиграйтесь с передачей в пропсы variant={}
+               4) Кнопки фильтра.. непонятно какая нажата, давайте это визуализируем, например, вот так (заменив className на variant):
+            */}
+            <Button color={"success"} variant={props.filter === 'all' ? "contained" : "text"}
+                    onClick={onAllClickHandler}>All
+            </Button>
+            <Button color={"primary"} variant={props.filter === 'active' ? "contained" : "text"}
+                    onClick={onActiveClickHandler}>Active
+            </Button>
+            <Button color={"secondary"} variant={props.filter === 'completed' ? "contained" : "text"}
+                    onClick={onCompletedClickHandler}>Completed
+            </Button>
         </div>
     </div>
 }
