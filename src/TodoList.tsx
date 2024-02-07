@@ -2,8 +2,10 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import {Delete} from "@mui/icons-material";
+import Checkbox from '@mui/material/Checkbox';
 
 export type TaskType = {
     id: string
@@ -134,13 +136,13 @@ export function Todolist(props: PropsType) {
                3) Если хотите, чтобы они выглядели как кнопки (или как ссылки), поиграйтесь с передачей в пропсы variant={}
                4) Кнопки фильтра.. непонятно какая нажата, давайте это визуализируем, например, вот так (заменив className на variant):
             */}
-            <Button color={"success"} variant={props.filter === 'all' ? "contained" : "text"}
+            <Button color={"success"} variant={props.filter === 'all' ? "outlined" : "contained"}
                     onClick={onAllClickHandler}>All
             </Button>
-            <Button color={"primary"} variant={props.filter === 'active' ? "contained" : "text"}
+            <Button color={"primary"} variant={props.filter === 'active' ? "outlined" : "contained"}
                     onClick={onActiveClickHandler}>Active
             </Button>
-            <Button color={"secondary"} variant={props.filter === 'completed' ? "contained" : "text"}
+            <Button color={"error"} variant={props.filter === 'completed' ? "outlined" : "contained"}
                     onClick={onCompletedClickHandler}>Completed
             </Button>
         </div>

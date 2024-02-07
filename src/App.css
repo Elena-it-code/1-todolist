@@ -1,29 +1,30 @@
-/*App Bar
-1) А теперь превратим наше приложение в полноценный сервис.
-Удалим ВСЁ из App.css (попробуем стилизовать наше приложение с помощью только лишь элементов из Material UI).
- */
-/*.App {
-  padding: 30px;
-  display: flex;
+
+.App {
+  /*padding: 30px;
+  display: flex;*/
 }
 
-.App > div {
+/*.App > div {
   margin-right: 50px;
-}
+}*!*/
 
-.error {
+/*.error {
   border: red 1px solid;
 }
 
 .error-message {
   color: red;
-}
+}*/
 
+
+/*
 .active-filter {
   background-color: aquamarine;
 }
+*/
 
 .is-done {
   opacity: 0.5;
-}*/
+}
+
 

@@ -3,8 +3,16 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import Menu from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
+import ButtonAppBar from "./ButtonAppBar";
 
 export type FilterValuesType = "all" | "active" | "completed";
 type TodolistType = {
@@ -17,10 +25,6 @@ type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-
-function MenuIcon() {
-    return null;
-}
 
 function App() {
     let todolistId1 = v1();
@@ -112,7 +116,7 @@ function App() {
 
     return (
         <div className="App">
-            <AppBar position="static">
+            {/*<AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <Menu/>
@@ -122,7 +126,8 @@ function App() {
                     </Typography>
                     <Button color={"inherit"}>Login</Button>
                 </Toolbar>
-            </AppBar>
+            </AppBar>*/}
+            <ButtonAppBar/>
             {/*Обернём форму добавления тудулистов и сами тудулисты в контейнер:*/}
             <Container fixed>
                 <Grid container style={ {padding: '20px'} }>
@@ -142,7 +147,7 @@ function App() {
                             }
 
                             return <Grid item>
-                                <Paper style={ {padding: '10px'} }>
+                                <Paper style={ {padding: '20px'}} elevation={3}>
                                     <Todolist
                                         key={tl.id}
                                         id={tl.id}
