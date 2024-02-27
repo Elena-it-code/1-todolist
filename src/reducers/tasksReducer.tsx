@@ -1,16 +1,14 @@
 import {TaskType} from "../Todolist";
 import {v1} from "uuid";
+import {FilterValuesType} from "../App";
 
-export const tasksReducer = (state: TaskType[], action: TsarType) => { // принимает два параметра (state: TaskType[] - state с которым он будет работать и action: TsarType - данные для работы)
+export const tasksReducer = (state: TaskType[], action: TsarType): TaskType[] => { // принимает два параметра (state: TaskType[] - state с которым он будет работать и action: TsarType - данные для работы)
     switch (action.type) {
 
         case 'REMOVE-TASK': {
             let filteredTasks = state.filter(t => t.id != action.payload.id);
-        /*setTasks(filteredTasks);*/
             return filteredTasks
         }
-
-
         case "ADD-TASK":{
             let newTask = { id: v1(), title: action.payload.title, isDone: false };
             return [...state, newTask]
@@ -32,7 +30,7 @@ export const removeTaskAC = (id: string) => {
         payload: { // специальный объект для хранения всех, приходящих параметров в f AC ()
             id, // равносильно записи id : id, поскольку свойство и значение совпадают
         }
-    } as const // !!! ВСЕГДА ПРИВОДИМ К CONSTANTE иначе всегда будет строка string,  и приложение наше будет падать!!! as const - для того, чтобы он понимал для чего swith case ''
+    } as const // !!! ВСЕГДА ПРИВОДИМ К as const (CONSTANTE) иначе всегда будет строка string,  и приложение наше будет падать!!! as const - для того, чтобы он понимал для чего swith case ''
 }
 
 export const addTaskAC = (title: string) => {
@@ -43,3 +41,4 @@ export const addTaskAC = (title: string) => {
         }
     } as const
 }
+
