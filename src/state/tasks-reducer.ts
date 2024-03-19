@@ -3,12 +3,18 @@ import {FilterValuesType, TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
-export type addTaskACType = ReturnType<typeof addTaskAC>
+export type AddTaskACType = ReturnType<typeof addTaskAC>
+export type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
+export type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
 
-type ActionsType = RemoveTaskACType | addTaskACType
+type ActionsType = RemoveTaskACType
+    | AddTaskACType
+    | ChangeTaskStatusACType
+    | ChangeTaskTitleACType
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
+
         case "REMOVE-TASK": {
             return {
                 ...state,
@@ -16,36 +22,30 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
                     .filter(t => t.id != action.taskId)
             }
         }
-        //ЧТО ПРОИСХОДИТ В ДАННОМ КОДЕ:
-        // Конструкция `switch` в JavaScript представляет собой способ выбора действий в зависимости от значения выражения `action.type`.
-        // В данном случае, она отслеживает тип действия (`action.type`), и для каждого типа действия выполняется определенный блок кода.
-        // Рассмотрим построчно, что происходит в представленном коде:
-        // 1. `switch (action.type) {`: Начало блока `switch`, в котором мы анализируем значение `action.type`.
-        // 2. `case "REMOVE-TASK": {`: Здесь мы определяем, что произойдет, если `action.type` равен `"REMOVE-TASK"`. Далее следуют блоки кода, связанные с этим значением.
-        // 3. `return { ...state, ... }`: Мы используем оператор spread (`...`) для создания копии текущего состояния `state`. Это делается для того, чтобы сохранить неизменным оригинальное состояние.
-        // 4. `[action.todolistId]: state[action.todolistId].filter(t=>t.id != action.taskId)`: Мы обращаемся к свойству `todolistId` в объекте `state` и фильтруем его содержимое на основе предиката через функцию `filter`. Массив `state[action.todolistId]` фильтруется, чтобы исключить задачу, чей `id` соответствует `action.taskId`.
-        // 5. `}`: Конец блока кода связанного с `case "REMOVE-TASK"`.
-        // В итоге, если `action.type` равен `"REMOVE-TASK"`, то происходит удаление задачи из массива задач `state[action.todolistId]` в объекте `state` и возвращается обновленное состояние.
+
         case "ADD-TASK": {
             return {
                 ...state,
                 [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistId]]
             }
         }
-        //1.ОДИН ИЗ ВАРИАНТОВ написания этой же логики:
-        // let newTask = {id: v1(), title: action.title, isDone: false}; // Создаем новую задачу с уникальным идентификатором и начальным состоянием
-        // return {
-        //     ...state,
-        //     [action.todolistId]: [newTask, ...state[action.todolistId]] // Возвращаем обновленное состояние со вставленной новой задачей
-        // }
-        // 2.УПРОЩЕННАЯ ЗАПИСЬ написания этой же логики:
-        //let newTask = { id: v1(), title: 'juse', isDone: false }; // Создаем новую задачу с уникальным идентификатором и начальным состоянием
-        //let updatedTasks = [...state[action.todolistId], newTask]; // Формируем обновленный массив задач, добавляя в него новую задачу
-        //return {
-        //   ...state,
-        //   [action.todolistId]: updatedTasks // Возвращаем обновленное состояние со вставленной новой задачей
-        //};
-        //}
+
+        case "CHANGE-TASK-STATUS": {
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(el => el.id === action.taskId ? {...el, isDone: action.isDone} : el)
+            }
+        }
+
+        case "CHANGE-TASK-TITLE": {
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(el => el.id === action.taskId ? {...el, title: action.title} : el)
+            }
+        }
+
         default:
             throw new Error("I don't understand this type")
     }
@@ -57,4 +57,11 @@ export const removeTaskAC = (taskId: string, todolistId: string) => {
 
 export const addTaskAC = (title: string, todolistId: string) => {
     return {type: 'ADD-TASK', title, todolistId} as const
+}
+
+export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string) => {
+    return {type: 'CHANGE-TASK-STATUS', taskId, isDone, todolistId} as const
+}
+export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string) => {
+    return {type: 'CHANGE-TASK-TITLE', taskId, title, todolistId} as const
 }
