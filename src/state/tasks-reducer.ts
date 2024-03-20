@@ -1,6 +1,7 @@
 import {useReducer} from "react";
 import {FilterValuesType, TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
+import {AddTodolistACType} from "./todolists-reducer";
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export type AddTaskACType = ReturnType<typeof addTaskAC>
@@ -11,6 +12,7 @@ type ActionsType = RemoveTaskACType
     | AddTaskACType
     | ChangeTaskStatusACType
     | ChangeTaskTitleACType
+    | AddTodolistACType
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -43,6 +45,13 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
                 ...state,
                 [action.todolistId]: state[action.todolistId]
                     .map(el => el.id === action.taskId ? {...el, title: action.title} : el)
+            }
+        }
+
+        case "ADD-TODOLIST": {
+            return {
+                ...state,
+                [action.payload.todolistId]: []
             }
         }
 
