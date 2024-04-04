@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {TaskType} from './Todolist';
+import {TaskType, Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
 import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
@@ -35,7 +35,7 @@ function AppWithRedux() {
     // useSelector - это функция, которая селектит\выбирает что-то из чего-то… В нашем случае из state-а данные для
     // конкретного компонента. И вместо двух разных диспатчей мы будем использовать один dispatch
     let todolists = useSelector<AppRootStateType,TodolistType[]>(state => state.todolists)
-    //let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const dispatch = useDispatch()
 
@@ -94,24 +94,24 @@ function AppWithRedux() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-                            // let allTodolistTasks = tasks[tl.id];
-                            // let tasksForTodolist = allTodolistTasks;
-                            //
-                            // if (tl.filter === "active") {
-                            //     tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false);
-                            // }
-                            // if (tl.filter === "completed") {
-                            //     tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
-                            // }
+                            let allTodolistTasks = tasks[tl.id];
+                            let tasksForTodolist = allTodolistTasks;
+
+                            if (tl.filter === "active") {
+                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false);
+                            }
+                            if (tl.filter === "completed") {
+                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
+                            }
 
                             return <Grid key={tl.id} item>
                                 <Paper style={{padding: "10px"}}>
-                                    <TodolistWithRedux // отрисовываем вместо <Todolist/>
+                                    {/*<TodolistWithRedux // отрисовываем вместо <Todolist/>
                                         id={tl.id}
                                         title={tl.title}
                                         filter={tl.filter}
-                                    />
-                                    {/*<Todolist
+                                    />*/}
+                                    <Todolist
                                         key={tl.id}
                                         id={tl.id}
                                         title={tl.title}
@@ -124,7 +124,7 @@ function AppWithRedux() {
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
-                                    />*/}
+                                    />
                                 </Paper>
                             </Grid>
                         })
