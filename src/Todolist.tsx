@@ -28,7 +28,7 @@ type PropsType = {
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
-export function Todolist (props: PropsType)  {
+export const Todolist = React.memo((props: PropsType) => {
     console.log("Todolist is called")
 
     // мы засунули нашу функцию в useCallback, и React нам будет формировать и возвращать из этого useCallback
@@ -111,4 +111,4 @@ export function Todolist (props: PropsType)  {
         </div>
     </div>
 
-}
+} )
