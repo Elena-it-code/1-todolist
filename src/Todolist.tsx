@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -29,9 +29,13 @@ type PropsType = {
 }
 
 export function Todolist (props: PropsType)  {
-    const addTask = (title: string) => {
+    console.log("Todolist is called")
+
+    // мы засунули нашу функцию в useCallback, и React нам будет формировать и возвращать из этого useCallback
+    // всякий раз один и тот же объект и у нас лишние перерисовки уйдут.
+    const addTask = useCallback ((title: string) => {
         props.addTask(title, props.id);
-    }
+    } , [])
 
     const removeTodolist = () => {
         props.removeTodolist(props.id);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
@@ -30,6 +30,7 @@ export type TasksStateType = {
 
 
 function AppWithRedux() {
+    console.log("App is called")
     // Для того чтобы внутри компоненты AppWithRedux достучаться до данных из redux, будем использовать специальный
     // hook из библиотеки react-redux - useSelector
     // useSelector - это функция, которая селектит\выбирает что-то из чего-то… В нашем случае из state-а данные для
@@ -69,10 +70,12 @@ function AppWithRedux() {
         dispatch(changeTodolistTitleAC(id, title))
     }
 
-    function addTodolist(title: string) {
+    const addTodolist = useCallback( (title: string) => {
+        // То есть мы засунули нашу функцию в useCallback, и React нам будет формировать и возвращать из этого
+        // useCallback всякий раз один и тот же объект и у нас лишние перерисовки уйдут.
         let action = addTodolistAC(title) // создаем action с помощью AC
         dispatch(action) // отправляем в редьюсер
-    }
+    }, [])
 
     return (
         <div className="App">
