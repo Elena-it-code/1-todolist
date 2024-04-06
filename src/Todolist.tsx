@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton/IconButton';
 import {Delete} from "@mui/icons-material";
 import {Button} from "@mui/material";
 import {SuperCheckbox} from "./Checkbox";
+import {Task} from "./Task";
 
 
 export type TaskType = {
@@ -33,25 +34,20 @@ export const Todolist = React.memo((props: PropsType) => {
 
     // мы засунули нашу функцию в useCallback, и React нам будет формировать и возвращать из этого useCallback
     // всякий раз один и тот же объект и у нас лишние перерисовки уйдут.
-    const addTask = useCallback ((title: string) => {
+    const addTask = useCallback((title: string) => {
         props.addTask(title, props.id);
-    } , [props.addTask, props.id])
+    }, [props.addTask, props.id])
 
     const removeTodolist = () => {
         props.removeTodolist(props.id);
     }
-    const changeTodolistTitle = (title: string) => {
+    const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title);
-    }
+    }, [props.changeTodolistTitle, props.id])
 
-    const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id),[props.changeFilter, props.id]);
-    const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id),[props.changeFilter, props.id]);
-    const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id),[props.changeFilter, props.id]);
-
-
-    const changeTaskStatusHandler = (tID: string, isDone: boolean) => {
-        props.changeTaskStatus(tID, isDone, props.id)
-    }
+    const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id), [props.changeFilter, props.id]);
+    const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id), [props.changeFilter, props.id]);
+    const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id), [props.changeFilter, props.id]);
 
     let tasksForTodolist = props.tasks
     if (props.filter === "active") {
@@ -61,6 +57,9 @@ export const Todolist = React.memo((props: PropsType) => {
         tasksForTodolist = props.tasks.filter(t => t.isDone === true);
     }
 
+    /*const changeTaskStatusHandler = (tID: string, isDone: boolean) => {
+        props.changeTaskStatus(tID, isDone, props.id)
+    }*/
 
     // вынести над return вот сюда функцию
     /*const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,50 +75,30 @@ export const Todolist = React.memo((props: PropsType) => {
             </IconButton>
         </h3>
         <AddItemForm addItem={addTask}/>
-        <div>
-            {
-                tasksForTodolist.map(t => {
-                    const onClickHandler = () => props.removeTask(t.id, props.id)
-                    // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    //     let newIsDoneValue = e.currentTarget.checked;
-                    //     props.changeTaskStatus(t.id, newIsDoneValue, props.id);
-                    // } // вынести над return
-                    const onTitleChangeHandler = (newValue: string) => {
-                        props.changeTaskTitle(t.id, newValue, props.id);
-                    }
+        {
+            props.tasks.map(t => <Task key={t.id}        // создали компоненту Task
+                                       filter={props.filter}
+                                       tasks={t}
+                                       todolistId={props.id}
+                                       removeTask={props.removeTask}
+                                       changeTaskStatus={props.changeTaskStatus}
+                                       changeTaskTitle={props.changeTaskTitle}
+            />)
+        }
 
-
-                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
-                        {/*<Checkbox // сделать универсальной компонентой*/}
-                        {/*    checked={t.isDone}*/}
-                        {/*    color="primary"*/}
-                        {/*    onChange={onChangeHandler}*/}
-                        {/*/>*/}
-                        <SuperCheckbox isDone={t.isDone} callback={(isDone)=>changeTaskStatusHandler(t.id, isDone)}/>
-
-                        <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
-                        <IconButton onClick={onClickHandler}>
-                            <Delete />
-                        </IconButton>
-                    </div>
-                })
-            }
-        </div>
-        <div>
-            <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
-                    onClick={onAllClickHandler}
-                    color={'inherit'}
-            >All
-            </Button>
-            <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
-                    onClick={onActiveClickHandler}
-                    color={'primary'}>Active
-            </Button>
-            <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
-                    onClick={onCompletedClickHandler}
-                    color={'secondary'}>Completed
-            </Button>
-        </div>
+        <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
+                onClick={onAllClickHandler}
+                color={'inherit'}
+        >All
+        </Button>
+        <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
+                onClick={onActiveClickHandler}
+                color={'primary'}>Active
+        </Button>
+        <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
+                onClick={onCompletedClickHandler}
+                color={'secondary'}>Completed
+        </Button>
     </div>
+})
 
-} )

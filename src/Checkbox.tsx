@@ -8,7 +8,7 @@ type CheckboxType = {
 
 
 
-export const SuperCheckbox = (props: CheckboxType) => {
+export const SuperCheckbox = React.memo((props: CheckboxType) => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
         props.callback(e.currentTarget.checked)
@@ -21,4 +21,4 @@ export const SuperCheckbox = (props: CheckboxType) => {
             onChange={onChangeHandler}
         />
     )
-}
+})
